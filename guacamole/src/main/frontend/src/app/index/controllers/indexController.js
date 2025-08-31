@@ -397,4 +397,42 @@ angular.module('index').controller('indexController', ['$scope', '$injector',
 
     });
 
+    // Auto-login functionality - attempt auto-login when no credentials are provided
+    $scope.$on('guacInvalidCredentials', function autoLoginOnInvalidCredentials(event, parameters, error) {
+        
+        // Check if no credentials were provided in URL
+        var urlParams = $location.search();
+        var hasCredentials = urlParams.username || urlParams.password || urlParams.token;
+        
+        // If no credentials were provided and this is the first attempt, try auto-login
+        if (!hasCredentials && !$scope.autoLoginAttempted) {
+            $scope.autoLoginAttempted = true;
+            
+            // Attempt auto-login with anon/anon credentials
+            authenticationService.login('anon', 'anon')
+            .then(function autoLoginSuccess() {
+                // Auto-login successful, user will be redirected to home
+                console.log('Auto-login successful');
+            })
+            ['catch'](function autoLoginFailed() {
+                // Auto-login failed, show normal login screen
+                console.log('Auto-login failed, showing login screen');
+                setApplicationState(ApplicationState.AWAITING_CREDENTIALS);
+                $scope.loginHelpText = null;
+                $scope.acceptedCredentials = {};
+                $scope.expectedCredentials = error.expected;
+            });
+            
+            // Prevent the normal invalid credentials handling
+            event.preventDefault();
+            return;
+        }
+        
+        // For subsequent attempts or when credentials were provided, use normal handling
+        setApplicationState(ApplicationState.AWAITING_CREDENTIALS);
+        $scope.loginHelpText = null;
+        $scope.acceptedCredentials = {};
+        $scope.expectedCredentials = error.expected;
+    });
+
 }]);

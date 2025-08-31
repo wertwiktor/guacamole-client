@@ -1,0 +1,77 @@
+<div class="enhanced-connection-manager">
+    
+    <!-- Control buttons -->
+    <div class="control-buttons">
+        <button class="btn btn-primary" ng-click="loadEnhancedConnections()" ng-disabled="loading">
+            <span ng-if="loading">Loading...</span>
+            <span ng-if="!loading">🔄 Refresh Connections</span>
+        </button>
+        <button class="btn btn-secondary" ng-click="toggleConsole()">
+            <span ng-if="!showConsole">📋 Show Console Log</span>
+            <span ng-if="showConsole">📋 Hide Console Log</span>
+        </button>
+        <button class="btn btn-info" ng-click="copyLogs()" ng-if="showConsole">
+            📋 Copy Logs
+        </button>
+    </div>
+
+    <!-- Loading indicator -->
+    <div class="loading" ng-if="loading">
+        <div class="spinner"></div>
+        <p>Loading enhanced connection data...</p>
+    </div>
+
+    <!-- Enhanced connections table -->
+    <div class="enhanced-connections-table" ng-if="enhancedConnections && enhancedConnections.length > 0">
+        <table class="connections-table">
+            <thead>
+                <tr>
+                    <th>Connection Name</th>
+                    <th>IP Address</th>
+                    <th>Last Connection</th>
+                    <th>Connected IPs</th>
+                    <th>Protocol</th>
+                    <th>Session Status</th>
+                    <th>Machine Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="conn in enhancedConnections">
+                    <td>{{conn.connectionName}}</td>
+                    <td>{{conn.ipAddress}}</td>
+                    <td>
+                        <div class="last-connection">
+                            <div class="last-connection-date">{{conn.lastConnectionFormatted}}</div>
+                            <div class="last-connection-relative">{{conn.lastConnectionRelative}}</div>
+                        </div>
+                    </td>
+                    <td>{{conn.connectedIPs}}</td>
+                    <td>{{conn.protocol}}</td>
+                    <td>
+                        <span class="session-status" ng-class="conn.statusClass">{{conn.statusText}}</span>
+                    </td>
+                    <td>
+                        <span class="machine-status" ng-class="conn.machineStatusClass">{{conn.machineStatusText}}</span>
+                    </td>
+                    <td>
+                        <div ng-bind-html="conn.actionsHtml"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- No connections message -->
+    <div class="no-connections" ng-if="enhancedConnections && enhancedConnections.length === 0">
+        <p>No connections found.</p>
+    </div>
+
+    <!-- Console log -->
+    <div class="console-log" ng-if="showConsole">
+        <div class="console-entry" ng-repeat="entry in consoleLog" ng-class="entry.type">
+            [{{entry.timestamp}}] {{entry.message}}
+        </div>
+    </div>
+
+</div>

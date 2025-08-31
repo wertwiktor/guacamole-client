@@ -4,7 +4,7 @@
 
     "APP" : {
 
-        "NAME"    : "Apache Guacamole",
+        "NAME"    : "ZW-Connector",
         "VERSION" : "${project.version}",
 
         "ACTION_ACKNOWLEDGE"        : "OK",

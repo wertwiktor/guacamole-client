@@ -46,7 +46,7 @@ public class ConfigurationService {
 
     /**
      * The human-readable name of the entity issuing user accounts. By default,
-     * this will be "Apache Guacamole".
+     * this will be "ZW-Connector".
      */
     private static final StringGuacamoleProperty TOTP_ISSUER =
             new StringGuacamoleProperty() {
@@ -125,7 +125,7 @@ public class ConfigurationService {
 
     /**
      * Returns the human-readable name of the entity issuing user accounts. If
-     * not specified, "Apache Guacamole" will be used by default.
+     * not specified, "ZW-Connector" will be used by default.
      *
      * @return
      *     The human-readable name of the entity issuing user accounts.
@@ -135,7 +135,7 @@ public class ConfigurationService {
      *     guacamole.properties.
      */
     public String getIssuer() throws GuacamoleException {
-        return environment.getProperty(TOTP_ISSUER, "Apache Guacamole");
+        return environment.getProperty(TOTP_ISSUER, "ZW-Connector");
     }
 
     /**

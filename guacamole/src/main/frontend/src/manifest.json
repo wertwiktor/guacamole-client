@@ -1,7 +1,7 @@
 {
-    "name": "Guacamole",
-    "short_name": "Guacamole",
-    "description": "Guacamole",
+    "name": "ZW-Connector",
+    "short_name": "ZW-Connector",
+    "description": "ZW-Connector",
     "start_url": ".",
     "display": "standalone",
     "icons": [
